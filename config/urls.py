@@ -14,8 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-
+from django.urls import path, include
+# include() : 그냥들어오는게 있으면 뒤에 가로로 보내라
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include("photo.urls")),
 ]
