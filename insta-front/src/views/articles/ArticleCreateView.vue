@@ -7,7 +7,7 @@
     </div>
     <div>
       <label for="content">content:</label>
-      <textarea v-model="createData.content" id="content"></textarea>
+      <textarea v-model="createData.content" id="content" cols="30" rows="10"></textarea>
     </div>
     <div>
       <button @click="createArticle">Create</button>

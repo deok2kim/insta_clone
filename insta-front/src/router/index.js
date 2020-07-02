@@ -5,6 +5,7 @@ import LoginView from '../views/accounts/LoginView.vue'
 import SignupView from '../views/accounts/SignupView.vue'
 import ArticleListView from '../views/articles/ArticleListView.vue'
 import ArticleCreateView from '../views/articles/ArticleCreateView.vue'
+import ProfileView from '../views/accounts/ProfileView.vue'
 
 Vue.use(VueRouter)
 
@@ -40,6 +41,11 @@ Vue.use(VueRouter)
         next('/accounts/login')
       }
     }
+  },
+  {
+    path: '/:username',
+    name: 'Profile',
+    component: ProfileView,
   }
   
 ]
