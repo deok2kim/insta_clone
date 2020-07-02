@@ -35,8 +35,8 @@ export default {
   methods: {
     signup() {
       this.$emit('submit-signup-data', this.SignupData)
-    }
-  }
+    },
+  },
 }
 </script>
 

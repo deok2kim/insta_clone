@@ -30,8 +30,8 @@ export default {
   methods: {
     login() {
       this.$emit('submit-login-data', this.loginData)
-    }
-  }
+    },
+  },
 }
 </script>
 
