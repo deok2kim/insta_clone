@@ -13,7 +13,22 @@ from .serializers import UserSerializer
 def profile(request, username):
     user = get_object_or_404(User, username=username)
     serializer = UserSerializer(user)
-    return Response(serializer.data)
+
+    me = request.user
+    status = 'me'
+    if me == user:
+        pass
+    elif user.followers.filter(pk=me.pk).exists():
+        status = True
+    else:
+        status = False
+    
+    data = {
+        'isFollow': status
+    }
+
+    data.update(serializer.data)
+    return Response(data)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -30,7 +45,4 @@ def follow(request, username):
         you.followers.add(me)
         status = False  
     
-    
-
     return Response(status)
-

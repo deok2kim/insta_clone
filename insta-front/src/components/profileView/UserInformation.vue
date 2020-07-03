@@ -5,7 +5,7 @@
 	</div>
 	<div>
 		<h2>User Information</h2>
-		<h3>{{userInformation.user}}
+		<h3>{{userInformation.username}}
 			<button v-if="userInformation.isFollow" @click="followSignal">팔로우</button>
 			<button v-if="!userInformation.isFollow" @click="followSignal">팔로우 취소</button>
 		</h3>

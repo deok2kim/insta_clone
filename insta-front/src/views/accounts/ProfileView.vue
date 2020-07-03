@@ -1,7 +1,7 @@
 <template>
   <div>
       <h1>Profile</h1>
-      <p v-if="userInformation.user">{{ userInformation.user.username }}님의 프로필</p>
+      <p>{{ userInformation.username }}님의 프로필</p>
       <UserInformation :userInformation=userInformation @follow="follow"></UserInformation>
       <UserArticles></UserArticles>
   </div>
@@ -26,17 +26,17 @@ export default {
 
   data() {
     return {
-      userInformation: {
-        user: null,
-        isFollow: null,
-      }
+      userInformation: null,
     }
   },
   methods: {
     fetchUserProfile() {
       axios.get(SERVER_URL + `/accounts/${this.$route.params.username}`)
         .then((res) => {
-          this.userInformation.user = res.data
+          console.log(res.data)
+          
+          this.userInformation = res.data
+          console.log(this.userInformation.username)
         })
         .catch(()=>{
           this.$router.push({ name: 'Home'})
@@ -48,9 +48,9 @@ export default {
           Authorization: `Token ${this.$cookies.get('auth-token')}`
         }
       }
-      axios.post(SERVER_URL + `/accounts/${this.userInformation.user.username}/follow/`, null, config)
+      axios.post(SERVER_URL + `/accounts/${this.userInformation.username}/follow/`, null, config)
         .then((res) => {
-          this.userInformation.isFollow = res.data
+          console.log(res.data)
         })
         .catch(err => console.log(err))
     }
