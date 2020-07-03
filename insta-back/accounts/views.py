@@ -11,7 +11,6 @@ from .serializers import UserSerializer
 # Create your views here.
 @api_view(['GET'])
 def profile(request, username):
-    print('안되나?')
     user = get_object_or_404(User, username=username)
     serializer = UserSerializer(user)
     return Response(serializer.data)
@@ -19,8 +18,19 @@ def profile(request, username):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def follow(request, username):
-    me = request.user.username
+    me = request.user
     you = get_object_or_404(User, username=username)
-    print(me, you)
-    pass
+    status = ''
+    if me == you:
+        pass
+    elif you.followers.filter(pk=me.pk).exists():
+        you.followers.remove(me)
+        status = True
+    else:
+        you.followers.add(me)
+        status = False  
+    
+    
+
+    return Response(status)
 
