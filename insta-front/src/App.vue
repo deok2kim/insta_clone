@@ -19,8 +19,6 @@
 <script>
 import axios from 'axios'
 const SERVER_URL = 'http://localhost:8000'
-
-
 export default {
   name: 'App',
   data() {
@@ -28,12 +26,10 @@ export default {
       isLoggedIn: false,
     }
   },
-
   methods: {
     setCookie(token) {
       this.$cookies.set('auth-token', token)
     },
-
     signup(signupData) {
       axios.post(SERVER_URL + '/rest-auth/signup/', signupData)
         .then((res)=>{
@@ -43,7 +39,6 @@ export default {
           this.$router.push({ name: 'Home' })
         })
     },
-
     login(loginData) {
       axios.post(SERVER_URL + '/rest-auth/login/', loginData)
         .then((res)=>{
@@ -51,14 +46,11 @@ export default {
           this.setCookie(res.data.key)
           this.isLoggedIn = true
           this.$router.push({ name: 'Home' })
-
         })
         .catch((err)=>{
           console.log(err.response)
         })
-
     },
-
     logout() {
       const config = {
         headers: {
@@ -74,9 +66,7 @@ export default {
         })
         .catch(err => console.log(err))
     }
-
   },
-
   mounted() {
     this.isLoggedIn = this.$cookies.isKey('auth-token')
   }
@@ -92,16 +82,13 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-
 #nav {
   padding: 30px;
 }
-
 #nav a {
   font-weight: bold;
   color: #2c3e50;
 }
-
 #nav a.router-link-exact-active {
   color: #42b983;
 }

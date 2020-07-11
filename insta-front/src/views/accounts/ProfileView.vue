@@ -2,8 +2,8 @@
   <div>
       <h1>Profile</h1>
       <p>{{ userInformation.username }}님의 프로필</p>
-      <UserInformation :userInformation=userInformation @follow="follow"></UserInformation>
-      <UserArticles></UserArticles>
+      <UserInformation :userInformation=userInformation />
+      <UserArticles :userArticles=userArticles />
   </div>
 </template>
 
@@ -26,7 +26,13 @@ export default {
 
   data() {
     return {
-      userInformation: null,
+      userInformation: {
+        id: 0,
+        username: null,
+        isFollow: null,
+        articleCount: 0,
+      },
+      userArticles: null,
     }
   },
   methods: {
@@ -35,22 +41,21 @@ export default {
         .then((res) => {
           console.log(res.data)
           
-          this.userInformation = res.data
-          console.log(this.userInformation.username)
+          this.userInformation.isFollow = res.data.isFollow
+          this.userInformation.id = res.data.id
+          this.userInformation.username = res.data.username
         })
         .catch(()=>{
           this.$router.push({ name: 'Home'})
         })
     },
-    follow() {
-      const config = {
-        headers: {
-          Authorization: `Token ${this.$cookies.get('auth-token')}`
-        }
-      }
-      axios.post(SERVER_URL + `/accounts/${this.userInformation.username}/follow/`, null, config)
-        .then((res) => {
+    fetchUserArticles() {
+      axios.get(SERVER_URL + `/accounts/${this.$route.params.username}/articles/`)
+        .then((res)=>{
           console.log(res.data)
+          this.userArticles = res.data
+          this.userInformation.articleCount = this.userArticles.length
+          console.log(this.userInformation)
         })
         .catch(err => console.log(err))
     }
@@ -58,6 +63,7 @@ export default {
 
   created() {
     this.fetchUserProfile()
+    this.fetchUserArticles()
   }
 }
 </script>
